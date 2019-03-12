@@ -1,4 +1,4 @@
-var surveyData = require("../data/surveyData");
+var surveyData = require("../data/friends.js");
 
 
 //Routes here
