@@ -243,58 +243,64 @@
         $(".submit").on("click", function (event) {
             event.preventDefault();
 
+            function validation() {
 
+                var valid = true;
 
+                var clientName = $("#clientName").val();
+                if (clientName === "") {
+                    valid = false;
+                }
 
-            // Here we grab the form elements
-            //var finderName = $("#finderName").val().trim();
-            /* var finderImage = $("#finderImg").val().trim();
+                var clientPhoto = $("#clientPhoto").val();
+                if (clientPhoto === "") {
+                    valid = false;
+                }
 
-            var question1_value = parseInt($("#question1").val().trim();
-            var question2_value = parseInt($("#question2").val().trim();
-            var question3_value = parseInt($("#question3").val().trim();
-            var question4_value = parseInt($("#question4").val().trim();
-            var question5_value = parseInt($("#question5").val().trim();
-            var question6_value = parseInt($("#question6").val().trim();
-            var question7_value = parseInt($("#question7").val().trim();
-            var question8_value = parseInt($("#question8").val().trim();
-            var question9_value = parseInt($("#question9").val().trim(;
-            var question10_value = parseInt($("#question10").val().trim();
- */
+                if ($("#clientPhoto").val().charAt(4) !== ":" && $("#clientPhoto").val().charAt(5) !== ":") {
+                    valid = false;
+                }
 
-
-
-
-
-            $.post("/api/finder", finderData,
-                function (data) {
-                    $("#").html(data.name);
-                    $("#").attr("src", data.image);
-                    //modal best match
-                    $("#").model("open");
-
-
-                    //if (data) {
-                    //alert("!");
-                    //}
-
-                    //else {
-                    //alert("");
-                    //}
-
-                    $("#question1").val("");
-                    $("#question2").val("");
-                    $("#question3").val("");
-                    $("#question4").val("");
-                    $("#question5").val("");
-                    $("#question6").val("");
-                    $("#question7").val("");
-                    $("#question8").val("");
-                    $("#question9").val("");
-                    $("#question10").val("");
-
+                $(".validate").each(function () {
+                    console.log($(this).val());
+                    if ($(this).val() === "") {
+                        valid = false;
+                    }
                 });
+                return valid;
+            }
+            //console.log(validation());
+            if (validation() === true) {
+                var survey = {
+                    name: $("#clientName").val(),
+                    photo: $("#clientPhoto").val(),
+                    score: [
 
+                        parseInt($("#question1").val()[0]),
+                        parseInt($("#question2").val()[0]),
+                        parseInt($("#question3").val()[0]),
+                        parseInt($("#question4").val()[0]),
+                        parseInt($("#question5").val()[0]),
+                        parseInt($("#question6").val()[0]),
+                        parseInt($("#question7").val()[0]),
+                        parseInt($("#question8").val()[0]),
+                        parseInt($("#question9").val()[0]),
+                        parseInt($("#question10").val()[0])
+
+                    ]
+                }
+
+                $.post("/api/finder", finderData,
+                    function (data) {
+                        $("#surveyName").html(data.name);
+                        $("#surveyPhoto").attr("src", data.image);
+                        //modal best match
+                        $("#resultsModal").modal("open");
+
+                    })
+            } else {
+                alert("");
+            }
         });
 
     </script>
